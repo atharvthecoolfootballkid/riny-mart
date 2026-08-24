@@ -2,105 +2,191 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>RinyMart — Everything You Need</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <meta
     name="description"
-    content="RinyMart — a modern shopping experience for groceries, electronics, home essentials, toys, stationery and more."
+    content="RinyMart — a friendly online store for everyday essentials."
   >
 
-  <link rel="stylesheet" href="style.css">
+  <meta
+    name="theme-color"
+    content="#f6efe7"
+  >
+
+  <title>RinyMart — Everything You Need</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 </head>
 
 <body>
 
-  <!-- =========================================
-       COOKIE BACKGROUND
-       ========================================= -->
+  <!-- =====================================================
+       DECORATIVE COOKIE BACKGROUND
+       ===================================================== -->
 
-  <div class="cookie-background" aria-hidden="true">
+  <div
+    class="cookie-background"
+    aria-hidden="true"
+  >
 
-    <div class="cookie cookie-1"></div>
-    <div class="cookie cookie-2"></div>
-    <div class="cookie cookie-3"></div>
-    <div class="cookie cookie-4"></div>
-    <div class="cookie cookie-5"></div>
-    <div class="cookie cookie-6"></div>
-    <div class="cookie cookie-7"></div>
-    <div class="cookie cookie-8"></div>
+    <div class="cookie cookie-left-top">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
 
-    <div class="crumb crumb-1"></div>
-    <div class="crumb crumb-2"></div>
-    <div class="crumb crumb-3"></div>
-    <div class="crumb crumb-4"></div>
+    <div class="cookie cookie-right-top">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="cookie cookie-left-bottom">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="cookie cookie-right-bottom">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="cookie-crumb crumb-one"></div>
+    <div class="cookie-crumb crumb-two"></div>
+    <div class="cookie-crumb crumb-three"></div>
+    <div class="cookie-crumb crumb-four"></div>
+    <div class="cookie-crumb crumb-five"></div>
 
   </div>
 
 
-  <!-- =========================================
+  <!-- =====================================================
        HEADER
-       ========================================= -->
+       ===================================================== -->
 
   <header class="site-header">
 
     <div class="header-main">
 
-      <a href="#" class="brand" id="homeButton">
-        <div class="brand-mark">R</div>
+      <!-- BRAND -->
 
-        <div class="brand-text">
-          <strong>Riny<span>Mart</span></strong>
-          <small>Everything you need, right here.</small>
+      <a
+        href="#"
+        class="brand"
+        id="homeButton"
+      >
+
+        <div class="brand-logo">
+          R
         </div>
+
+        <div class="brand-name">
+
+          <strong>
+            Riny<span>Mart</span>
+          </strong>
+
+          <small>
+            EVERYTHING, DELIVERED.
+          </small>
+
+        </div>
+
       </a>
 
 
       <!-- SEARCH -->
 
-      <div class="search-container">
+      <div class="search-box">
 
         <input
-          type="search"
           id="searchInput"
-          placeholder="Search for products, brands and more..."
+          type="search"
+          placeholder="Search for products, groceries, magnets, snacks..."
           autocomplete="off"
         >
 
-        <button id="searchButton" aria-label="Search">
+        <button
+          id="searchButton"
+          type="button"
+          aria-label="Search"
+        >
           <span class="search-icon"></span>
         </button>
 
       </div>
 
 
-      <!-- HEADER ACTIONS -->
+      <!-- ACCOUNT / CART -->
 
       <div class="header-actions">
 
-        <button class="header-action" id="accountButton">
+        <button
+          class="header-action"
+          id="accountButton"
+          type="button"
+        >
 
-          <span class="action-icon account-icon"></span>
+          <span class="person-icon"></span>
 
-          <span>
-            <small>Account</small>
-            <strong>Sign in / Register</strong>
+          <span class="action-text">
+
+            <small>
+              Hello
+            </small>
+
+            <strong>
+              Account
+            </strong>
+
           </span>
 
         </button>
 
 
-        <button class="header-action cart-button" id="cartButton">
+        <button
+          class="header-action"
+          id="cartButton"
+          type="button"
+        >
 
-          <span class="action-icon cart-icon"></span>
+          <span class="cart-icon">
 
-          <span>
-            <small>Cart</small>
-            <strong>₹<span id="cartTotal">0</span></strong>
+            <i id="cartCount">
+              0
+            </i>
+
           </span>
 
-          <b class="cart-count" id="cartCount">0</b>
+          <span class="action-text">
+
+            <small>
+              Your
+            </small>
+
+            <strong>
+              Cart
+            </strong>
+
+          </span>
 
         </button>
 
@@ -109,138 +195,235 @@
     </div>
 
 
-    <!-- DELIVERY BAR -->
+    <!-- SECOND NAVIGATION BAR -->
 
-    <div class="delivery-bar">
+    <div class="navigation-bar">
 
-      <button class="location-selector" id="locationButton">
+      <button
+        class="delivery-location"
+        id="locationButton"
+        type="button"
+      >
 
-        <span class="location-pin"></span>
+        <span class="pin-icon"></span>
 
         <span>
-          <small>Deliver to</small>
-          <strong id="locationText">Select your address</strong>
+
+          <small>
+            Deliver to
+          </small>
+
+          <strong id="locationText">
+            Add your location
+          </strong>
+
         </span>
 
-        <span class="down-arrow"></span>
+        <span class="arrow-down"></span>
 
       </button>
 
 
-      <nav class="main-navigation">
+      <nav class="main-nav">
 
-        <a href="#deals">Today's Deals</a>
-        <a href="#categories">Categories</a>
-        <a href="#groceries">Groceries</a>
-        <a href="#electronics">Electronics</a>
-        <a href="#home">Home</a>
-        <a href="#toys">Toys & Games</a>
-        <a href="#stationery">Stationery</a>
+        <a href="#categories">
+          Categories
+        </a>
+
+        <a href="#deals">
+          Today's Deals
+        </a>
+
+        <a href="#products">
+          Best Sellers
+        </a>
+
+        <a href="#benefits">
+          Why RinyMart
+        </a>
 
       </nav>
 
 
-      <div class="delivery-message">
-        Fast delivery across your area
-      </div>
+      <span class="nav-message">
+        Fast delivery on everyday essentials
+      </span>
 
     </div>
 
   </header>
 
 
-
-  <!-- =========================================
+  <!-- =====================================================
        MAIN
-       ========================================= -->
+       ===================================================== -->
 
-  <main class="main-content">
+  <main>
 
 
-    <!-- =========================================
+    <!-- ===================================================
          HERO
-         ========================================= -->
+         =================================================== -->
 
     <section class="hero-section">
 
-      <div class="hero-content">
+      <div class="hero-copy">
 
-        <div class="hero-label">
-          RinyMart
-        </div>
+        <span class="eyebrow">
+          WELCOME TO RINYMART
+        </span>
 
         <h1>
-          Everything you need.
-          <span>Delivered.</span>
+          Everything you need,
+          <span>in one place.</span>
         </h1>
 
         <p>
-          Discover groceries, electronics, home essentials,
-          toys, stationery, gifts and much more.
+          Discover everyday groceries, snacks, home
+          essentials, gifts, kids' products, electronics
+          and lots of little things worth finding.
         </p>
+
 
         <div class="hero-buttons">
 
-          <button class="primary-button" id="shopNowButton">
+          <button
+            class="primary-button"
+            id="shopNowButton"
+            type="button"
+          >
             Shop now
           </button>
 
-          <button class="secondary-button" id="exploreButton">
+          <button
+            class="secondary-button"
+            id="exploreButton"
+            type="button"
+          >
             Explore categories
           </button>
 
         </div>
 
+
+        <div class="hero-trust">
+
+          <div>
+            <strong>
+              100+
+            </strong>
+
+            <span>
+              everyday picks
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              Simple
+            </strong>
+
+            <span>
+              shopping
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              Family
+            </strong>
+
+            <span>
+              friendly
+            </span>
+          </div>
+
+        </div>
+
       </div>
 
 
-      <!-- HERO SHOPPING VISUAL -->
+      <!-- HERO DECORATION -->
 
-      <div class="hero-visual">
+      <div class="hero-art">
 
-        <div class="shopping-basket">
+        <div class="hero-circle"></div>
+
+        <div class="hero-basket">
 
           <div class="basket-handle"></div>
 
-          <div class="basket-item item-orange"></div>
-          <div class="basket-item item-green"></div>
-          <div class="basket-item item-blue"></div>
-          <div class="basket-item item-yellow"></div>
+          <div class="basket-body">
+
+            <div class="basket-item basket-item-one"></div>
+            <div class="basket-item basket-item-two"></div>
+            <div class="basket-item basket-item-three"></div>
+            <div class="basket-item basket-item-four"></div>
+
+          </div>
 
         </div>
 
-        <div class="hero-card hero-card-one">
-          Fresh groceries
+
+        <div class="floating-card floating-card-one">
+
+          <span class="floating-dot"></span>
+
+          <div>
+            <strong>
+              Fresh picks
+            </strong>
+
+            <small>
+              Ready for your cart
+            </small>
+          </div>
+
         </div>
 
-        <div class="hero-card hero-card-two">
-          Home essentials
+
+        <div class="floating-card floating-card-two">
+
+          <strong>
+            Everyday
+          </strong>
+
+          <span>
+            made easier
+          </span>
+
         </div>
 
       </div>
 
 
-      <!-- QR -->
+      <!-- REAL QR CONTAINER -->
 
       <div class="qr-card">
 
-        <div class="qr-heading">
-          Open RinyMart
+        <div class="qr-label">
+          SHOP ON ANY DEVICE
         </div>
 
+        <h3>
+          Scan & open RinyMart
+        </h3>
+
         <p>
-          Scan to visit the store
-          on another device.
+          Scan this QR code with your phone camera.
         </p>
 
-        <div class="qr-code" id="qrCode">
-          <div class="qr-placeholder">
-            QR
+        <div
+          class="qr-container"
+          id="qrCode"
+        >
+          <div class="qr-loading">
+            Loading QR
           </div>
         </div>
 
         <small>
-          Scan this code with your phone
+          The QR automatically uses this website's URL.
         </small>
 
       </div>
@@ -248,22 +431,35 @@
     </section>
 
 
+    <!-- ===================================================
+         CATEGORY SECTION
+         =================================================== -->
 
-    <!-- =========================================
-         QUICK CATEGORIES
-         ========================================= -->
+    <section
+      class="content-section"
+      id="categories"
+    >
 
-    <section class="categories-section" id="categories">
-
-      <div class="section-heading">
+      <div class="section-header">
 
         <div>
-          <span class="section-eyebrow">Shop by</span>
-          <h2>Categories</h2>
+
+          <span class="eyebrow">
+            DISCOVER
+          </span>
+
+          <h2>
+            Shop by category
+          </h2>
+
         </div>
 
-        <button class="text-button" id="viewCategoriesButton">
-          View all
+        <button
+          class="text-button"
+          id="viewCategoriesButton"
+          type="button"
+        >
+          Explore all
         </button>
 
       </div>
@@ -271,147 +467,226 @@
 
       <div class="category-grid">
 
-        <button class="category-card" data-category="Groceries">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=500&q=85"
-              alt="Fresh groceries"
-            >
+
+        <!-- 1 -->
+
+        <button
+          class="category-card"
+          data-category="Groceries"
+          type="button"
+        >
+
+          <div class="category-picture groceries-picture">
+
+            <div class="category-object vegetable-one"></div>
+            <div class="category-object vegetable-two"></div>
+            <div class="category-object vegetable-three"></div>
+            <div class="category-object vegetable-four"></div>
+
           </div>
-          <strong>Groceries</strong>
-          <span>Fresh essentials</span>
+
+          <strong>
+            Groceries
+          </strong>
+
+          <span>
+            Fresh everyday food
+          </span>
+
         </button>
 
 
-        <button class="category-card" data-category="Snacks">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1621939514649-280e2aa2e7f4?auto=format&fit=crop&w=500&q=85"
-              alt="Snacks"
-            >
+        <!-- 2 -->
+
+        <button
+          class="category-card"
+          data-category="Snacks"
+          type="button"
+        >
+
+          <div class="category-picture snacks-picture">
+
+            <div class="snack-shape snack-one"></div>
+            <div class="snack-shape snack-two"></div>
+            <div class="snack-shape snack-three"></div>
+
           </div>
-          <strong>Snacks</strong>
-          <span>Sweet & savoury</span>
+
+          <strong>
+            Snacks
+          </strong>
+
+          <span>
+            Treats for every mood
+          </span>
+
         </button>
 
 
-        <button class="category-card" data-category="Beverages">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=500&q=85"
-              alt="Beverages"
-            >
+        <!-- 3 -->
+
+        <button
+          class="category-card"
+          data-category="Home"
+          type="button"
+        >
+
+          <div class="category-picture home-picture">
+
+            <div class="home-lamp"></div>
+            <div class="home-table"></div>
+
           </div>
-          <strong>Beverages</strong>
-          <span>Drinks & more</span>
+
+          <strong>
+            Home
+          </strong>
+
+          <span>
+            Useful home essentials
+          </span>
+
         </button>
 
 
-        <button class="category-card" data-category="Fruits">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=500&q=85"
-              alt="Fresh fruits"
-            >
+        <!-- 4 -->
+
+        <button
+          class="category-card"
+          data-category="Kids"
+          type="button"
+        >
+
+          <div class="category-picture kids-picture">
+
+            <div class="toy-block block-red"></div>
+            <div class="toy-block block-blue"></div>
+            <div class="toy-block block-yellow"></div>
+
           </div>
-          <strong>Fruits & Veggies</strong>
-          <span>Fresh produce</span>
+
+          <strong>
+            Kids
+          </strong>
+
+          <span>
+            Creative and fun picks
+          </span>
+
         </button>
 
 
-        <button class="category-card" data-category="Home">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=500&q=85"
-              alt="Home essentials"
-            >
+        <!-- 5 -->
+
+        <button
+          class="category-card"
+          data-category="Electronics"
+          type="button"
+        >
+
+          <div class="category-picture electronics-picture">
+
+            <div class="phone-shape"></div>
+            <div class="earbud-shape earbud-left"></div>
+            <div class="earbud-shape earbud-right"></div>
+
           </div>
-          <strong>Home</strong>
-          <span>Everyday essentials</span>
+
+          <strong>
+            Electronics
+          </strong>
+
+          <span>
+            Handy technology
+          </span>
+
         </button>
 
 
-        <button class="category-card" data-category="Electronics">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=500&q=85"
-              alt="Electronics"
-            >
+        <!-- 6 -->
+
+        <button
+          class="category-card"
+          data-category="Fridge Magnets"
+          type="button"
+        >
+
+          <div class="category-picture magnet-picture">
+
+            <div class="magnet magnet-a">
+              R
+            </div>
+
+            <div class="magnet magnet-b">
+              M
+            </div>
+
+            <div class="magnet magnet-c">
+              +
+            </div>
+
           </div>
-          <strong>Electronics</strong>
-          <span>Tech & accessories</span>
+
+          <strong>
+            Fridge Magnets
+          </strong>
+
+          <span>
+            Little decorations
+          </span>
+
         </button>
 
 
-        <button class="category-card" data-category="Toys">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1594784055418-1a1f4b0c2b4e?auto=format&fit=crop&w=500&q=85"
-              alt="Toys and games"
-            >
+        <!-- 7 -->
+
+        <button
+          class="category-card"
+          data-category="Stationery"
+          type="button"
+        >
+
+          <div class="category-picture stationery-picture">
+
+            <div class="pencil-shape"></div>
+            <div class="notebook-shape"></div>
+
           </div>
-          <strong>Toys & Games</strong>
-          <span>Fun for everyone</span>
+
+          <strong>
+            Stationery
+          </strong>
+
+          <span>
+            School and desk essentials
+          </span>
+
         </button>
 
 
-        <button class="category-card" data-category="Stationery">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=500&q=85"
-              alt="Stationery"
-            >
+        <!-- 8 -->
+
+        <button
+          class="category-card"
+          data-category="Gifts"
+          type="button"
+        >
+
+          <div class="category-picture gifts-picture">
+
+            <div class="gift-box"></div>
+            <div class="gift-ribbon"></div>
+
           </div>
-          <strong>Stationery</strong>
-          <span>School & office</span>
-        </button>
 
+          <strong>
+            Gifts
+          </strong>
 
-        <button class="category-card" data-category="Decor">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=500&q=85"
-              alt="Home decor"
-            >
-          </div>
-          <strong>Decor</strong>
-          <span>Make it yours</span>
-        </button>
+          <span>
+            Small surprises
+          </span>
 
-
-        <button class="category-card" data-category="Gifts">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=500&q=85"
-              alt="Gifts"
-            >
-          </div>
-          <strong>Gifts</strong>
-          <span>For every occasion</span>
-        </button>
-
-
-        <button class="category-card" data-category="Sports">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=500&q=85"
-              alt="Sports equipment"
-            >
-          </div>
-          <strong>Sports</strong>
-          <span>Play & move</span>
-        </button>
-
-
-        <button class="category-card" data-category="Magnets">
-          <div class="category-image">
-            <img
-              src="https://images.unsplash.com/photo-1528382176427-1cfa4f7b1a3f?auto=format&fit=crop&w=500&q=85"
-              alt="Fridge magnets"
-            >
-          </div>
-          <strong>Fridge Magnets</strong>
-          <span>Collect & decorate</span>
         </button>
 
       </div>
@@ -419,23 +694,42 @@
     </section>
 
 
+    <!-- ===================================================
+         DEAL
+         =================================================== -->
 
-    <!-- =========================================
-         DEALS
-         ========================================= -->
-
-    <section class="deals-section" id="deals">
+    <section
+      class="content-section deals-section"
+      id="deals"
+    >
 
       <div class="deal-banner">
 
-        <div>
-          <span>LIMITED-TIME OFFERS</span>
-          <h2>Great products. Better prices.</h2>
-          <p>Discover selected products at special prices.</p>
+        <div class="deal-copy">
+
+          <span>
+            THIS WEEK AT RINYMART
+          </span>
+
+          <h2>
+            Useful things.
+            <strong>Friendly prices.</strong>
+          </h2>
+
+          <p>
+            Discover products for your kitchen, home,
+            school, family and everyday routine.
+          </p>
+
         </div>
 
-        <button class="primary-button">
-          Shop deals
+
+        <button
+          class="primary-button"
+          id="dealButton"
+          type="button"
+        >
+          See products
         </button>
 
       </div>
@@ -443,73 +737,173 @@
     </section>
 
 
-
-    <!-- =========================================
+    <!-- ===================================================
          PRODUCTS
-         ========================================= -->
+         =================================================== -->
 
-    <section class="products-section" id="products">
+    <section
+      class="content-section"
+      id="products"
+    >
 
-      <div class="section-heading">
+      <div class="section-header">
 
         <div>
-          <span class="section-eyebrow">Popular right now</span>
-          <h2>Top picks for you</h2>
+
+          <span class="eyebrow">
+            POPULAR NOW
+          </span>
+
+          <h2>
+            Picks you'll love
+          </h2>
+
         </div>
 
-        <button class="text-button" id="viewAllProducts">
+        <button
+          class="text-button"
+          id="allProductsButton"
+          type="button"
+        >
           View all
         </button>
 
       </div>
 
 
-      <div class="product-grid" id="productGrid">
+      <div class="product-grid">
 
 
         <!-- PRODUCT 1 -->
 
-        <article class="product-card" data-category="Snacks">
+        <article
+          class="product-card"
+          data-category="Groceries"
+        >
 
           <div class="product-image">
-            <img
-              src="https://images.unsplash.com/photo-1621939514649-280e2aa2e7f4?auto=format&fit=crop&w=600&q=85"
-              alt="Chocolate chip cookies"
-            >
 
             <span class="product-badge">
               Popular
             </span>
 
+            <div class="product-visual milk-visual">
+
+              <div class="milk-bottle">
+                <div class="milk-cap"></div>
+                <div class="milk-label">
+                  FRESH
+                </div>
+              </div>
+
+            </div>
+
           </div>
 
-          <div class="product-information">
+          <div class="product-details">
+
+            <span class="product-category">
+              Groceries
+            </span>
+
+            <h3>
+              Farm Fresh Milk
+            </h3>
+
+            <p>
+              1 litre
+            </p>
+
+            <div class="rating">
+              <strong>
+                4.8
+              </strong>
+
+              <span>
+                ★★★★★
+              </span>
+            </div>
+
+            <div class="product-footer">
+
+              <strong class="product-price">
+                ₹68
+              </strong>
+
+              <button
+                class="add-button"
+                type="button"
+              >
+                Add
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <!-- PRODUCT 2 -->
+
+        <article
+          class="product-card"
+          data-category="Snacks"
+        >
+
+          <div class="product-image">
+
+            <span class="product-badge">
+              Snack
+            </span>
+
+            <div class="product-visual cookie-visual">
+
+              <div class="big-cookie">
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="product-details">
 
             <span class="product-category">
               Snacks
             </span>
 
-            <h3>Chocolate Chip Cookies</h3>
+            <h3>
+              Chocolate Chip Cookies
+            </h3>
 
-            <p class="product-size">
+            <p>
               200 g pack
             </p>
 
-            <div class="product-rating">
-              <span>4.7</span>
-              <span class="rating-stars">★★★★★</span>
+            <div class="rating">
+              <strong>
+                4.9
+              </strong>
+
+              <span>
+                ★★★★★
+              </span>
             </div>
 
-            <div class="product-bottom">
+            <div class="product-footer">
 
               <strong class="product-price">
-                ₹85
+                ₹120
               </strong>
 
               <button
                 class="add-button"
-                data-product="Chocolate Chip Cookies"
-                data-price="85"
+                type="button"
               >
                 Add
               </button>
@@ -519,153 +913,60 @@
           </div>
 
         </article>
-
-
-
-        <!-- PRODUCT 2 -->
-
-        <article class="product-card" data-category="Groceries">
-
-          <div class="product-image">
-
-            <img
-              src="https://images.unsplash.com/photo-1584306670957-acf935f8928e?auto=format&fit=crop&w=600&q=85"
-              alt="Fresh apples"
-            >
-
-          </div>
-
-          <div class="product-information">
-
-            <span class="product-category">
-              Fruits
-            </span>
-
-            <h3>Fresh Apples</h3>
-
-            <p class="product-size">
-              1 kg
-            </p>
-
-            <div class="product-rating">
-              <span>4.6</span>
-              <span class="rating-stars">★★★★★</span>
-            </div>
-
-            <div class="product-bottom">
-
-              <strong class="product-price">
-                ₹129
-              </strong>
-
-              <button
-                class="add-button"
-                data-product="Fresh Apples"
-                data-price="129"
-              >
-                Add
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
 
 
         <!-- PRODUCT 3 -->
 
-        <article class="product-card" data-category="Beverages">
+        <article
+          class="product-card"
+          data-category="Home"
+        >
 
           <div class="product-image">
 
-            <img
-              src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=600&q=85"
-              alt="Cold beverage"
-            >
+            <div class="product-visual storage-visual">
 
-          </div>
-
-          <div class="product-information">
-
-            <span class="product-category">
-              Beverages
-            </span>
-
-            <h3>Refreshing Soft Drink</h3>
-
-            <p class="product-size">
-              750 ml
-            </p>
-
-            <div class="product-rating">
-              <span>4.5</span>
-              <span class="rating-stars">★★★★★</span>
-            </div>
-
-            <div class="product-bottom">
-
-              <strong class="product-price">
-                ₹45
-              </strong>
-
-              <button
-                class="add-button"
-                data-product="Refreshing Soft Drink"
-                data-price="45"
-              >
-                Add
-              </button>
+              <div class="storage-box box-one"></div>
+              <div class="storage-box box-two"></div>
+              <div class="storage-box box-three"></div>
 
             </div>
 
           </div>
 
-        </article>
-
-
-
-        <!-- PRODUCT 4 -->
-
-        <article class="product-card" data-category="Home">
-
-          <div class="product-image">
-
-            <img
-              src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=85"
-              alt="Kitchen essentials"
-            >
-
-          </div>
-
-          <div class="product-information">
+          <div class="product-details">
 
             <span class="product-category">
               Home
             </span>
 
-            <h3>Kitchen Essentials Set</h3>
+            <h3>
+              Kitchen Storage Set
+            </h3>
 
-            <p class="product-size">
-              5-piece set
+            <p>
+              Set of 3
             </p>
 
-            <div class="product-rating">
-              <span>4.8</span>
-              <span class="rating-stars">★★★★★</span>
+            <div class="rating">
+              <strong>
+                4.7
+              </strong>
+
+              <span>
+                ★★★★★
+              </span>
             </div>
 
-            <div class="product-bottom">
+            <div class="product-footer">
 
               <strong class="product-price">
-                ₹399
+                ₹299
               </strong>
 
               <button
                 class="add-button"
-                data-product="Kitchen Essentials Set"
-                data-price="399"
+                type="button"
               >
                 Add
               </button>
@@ -677,254 +978,55 @@
         </article>
 
 
+        <!-- PRODUCT 4 -->
 
-        <!-- PRODUCT 5 -->
-
-        <article class="product-card" data-category="Electronics">
+        <article
+          class="product-card"
+          data-category="Kids"
+        >
 
           <div class="product-image">
-
-            <img
-              src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=85"
-              alt="Wireless headphones"
-            >
 
             <span class="product-badge">
-              New
+              Kids
             </span>
+
+            <div class="product-visual blocks-visual">
+
+              <div class="block block-one"></div>
+              <div class="block block-two"></div>
+              <div class="block block-three"></div>
+              <div class="block block-four"></div>
+
+            </div>
 
           </div>
 
-          <div class="product-information">
+          <div class="product-details">
 
             <span class="product-category">
-              Electronics
+              Kids
             </span>
 
-            <h3>Wireless Headphones</h3>
+            <h3>
+              Creative Building Blocks
+            </h3>
 
-            <p class="product-size">
-              Bluetooth
+            <p>
+              60 pieces
             </p>
 
-            <div class="product-rating">
-              <span>4.6</span>
-              <span class="rating-stars">★★★★★</span>
-            </div>
-
-            <div class="product-bottom">
-
-              <strong class="product-price">
-                ₹1,299
+            <div class="rating">
+              <strong>
+                4.8
               </strong>
 
-              <button
-                class="add-button"
-                data-product="Wireless Headphones"
-                data-price="1299"
-              >
-                Add
-              </button>
-
+              <span>
+                ★★★★★
+              </span>
             </div>
 
-          </div>
-
-        </article>
-
-
-
-        <!-- PRODUCT 6 -->
-
-        <article class="product-card" data-category="Stationery">
-
-          <div class="product-image">
-
-            <img
-              src="https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=600&q=85"
-              alt="Notebook and stationery"
-            >
-
-          </div>
-
-          <div class="product-information">
-
-            <span class="product-category">
-              Stationery
-            </span>
-
-            <h3>Premium Notebook</h3>
-
-            <p class="product-size">
-              200 pages
-            </p>
-
-            <div class="product-rating">
-              <span>4.7</span>
-              <span class="rating-stars">★★★★★</span>
-            </div>
-
-            <div class="product-bottom">
-
-              <strong class="product-price">
-                ₹149
-              </strong>
-
-              <button
-                class="add-button"
-                data-product="Premium Notebook"
-                data-price="149"
-              >
-                Add
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-
-        <!-- PRODUCT 7 -->
-
-        <article class="product-card" data-category="Magnets">
-
-          <div class="product-image">
-
-            <img
-              src="https://images.unsplash.com/photo-1528382176427-1cfa4f7b1a3f?auto=format&fit=crop&w=600&q=85"
-              alt="Decorative fridge magnets"
-            >
-
-            <span class="product-badge">
-              Bestseller
-            </span>
-
-          </div>
-
-          <div class="product-information">
-
-            <span class="product-category">
-              Fridge Magnets
-            </span>
-
-            <h3>Travel Fridge Magnet Set</h3>
-
-            <p class="product-size">
-              Set of 4
-            </p>
-
-            <div class="product-rating">
-              <span>4.8</span>
-              <span class="rating-stars">★★★★★</span>
-            </div>
-
-            <div class="product-bottom">
-
-              <strong class="product-price">
-                ₹199
-              </strong>
-
-              <button
-                class="add-button"
-                data-product="Travel Fridge Magnet Set"
-                data-price="199"
-              >
-                Add
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-
-        <!-- PRODUCT 8 -->
-
-        <article class="product-card" data-category="Toys">
-
-          <div class="product-image">
-
-            <img
-              src="https://images.unsplash.com/photo-1594784055418-1a1f4b0c2b4e?auto=format&fit=crop&w=600&q=85"
-              alt="Toy"
-            >
-
-          </div>
-
-          <div class="product-information">
-
-            <span class="product-category">
-              Toys & Games
-            </span>
-
-            <h3>Classic Building Set</h3>
-
-            <p class="product-size">
-              120 pieces
-            </p>
-
-            <div class="product-rating">
-              <span>4.9</span>
-              <span class="rating-stars">★★★★★</span>
-            </div>
-
-            <div class="product-bottom">
-
-              <strong class="product-price">
-                ₹499
-              </strong>
-
-              <button
-                class="add-button"
-                data-product="Classic Building Set"
-                data-price="499"
-              >
-                Add
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-
-        <!-- PRODUCT 9 -->
-
-        <article class="product-card" data-category="Home">
-
-          <div class="product-image">
-
-            <img
-              src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=85"
-              alt="Home decoration"
-            >
-
-          </div>
-
-          <div class="product-information">
-
-            <span class="product-category">
-              Decor
-            </span>
-
-            <h3>Modern Room Decor</h3>
-
-            <p class="product-size">
-              Decorative piece
-            </p>
-
-            <div class="product-rating">
-              <span>4.5</span>
-              <span class="rating-stars">★★★★★</span>
-            </div>
-
-            <div class="product-bottom">
+            <div class="product-footer">
 
               <strong class="product-price">
                 ₹349
@@ -932,8 +1034,7 @@
 
               <button
                 class="add-button"
-                data-product="Modern Room Decor"
-                data-price="349"
+                type="button"
               >
                 Add
               </button>
@@ -945,47 +1046,74 @@
         </article>
 
 
+        <!-- PRODUCT 5 -->
 
-        <!-- PRODUCT 10 -->
-
-        <article class="product-card" data-category="Sports">
+        <article
+          class="product-card"
+          data-category="Fridge Magnets"
+        >
 
           <div class="product-image">
 
-            <img
-              src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=85"
-              alt="Sports equipment"
-            >
+            <span class="product-badge">
+              New
+            </span>
+
+            <div class="product-visual magnets-visual">
+
+              <div class="mini-magnet">
+                R
+              </div>
+
+              <div class="mini-magnet">
+                M
+              </div>
+
+              <div class="mini-magnet">
+                +
+              </div>
+
+              <div class="mini-magnet">
+                ★
+              </div>
+
+            </div>
 
           </div>
 
-          <div class="product-information">
+          <div class="product-details">
 
             <span class="product-category">
-              Sports
+              Fridge Magnets
             </span>
 
-            <h3>Training Equipment</h3>
+            <h3>
+              Decorative Magnet Set
+            </h3>
 
-            <p class="product-size">
-              Home workout
+            <p>
+              Set of 6
             </p>
 
-            <div class="product-rating">
-              <span>4.6</span>
-              <span class="rating-stars">★★★★★</span>
+            <div class="rating">
+              <strong>
+                4.6
+              </strong>
+
+              <span>
+                ★★★★★
+              </span>
             </div>
 
-            <div class="product-bottom">
+            <div class="product-footer">
 
               <strong class="product-price">
-                ₹599
+                ₹199
               </strong>
 
               <button
                 class="add-button"
-                data-product="Training Equipment"
-                data-price="599"
+                type="button"
               >
                 Add
               </button>
@@ -997,47 +1125,58 @@
         </article>
 
 
+        <!-- PRODUCT 6 -->
 
-        <!-- PRODUCT 11 -->
-
-        <article class="product-card" data-category="Gifts">
+        <article
+          class="product-card"
+          data-category="Electronics"
+        >
 
           <div class="product-image">
 
-            <img
-              src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=600&q=85"
-              alt="Gift set"
-            >
+            <div class="product-visual headphones-visual">
+
+              <div class="headphone-band"></div>
+              <div class="headphone-left"></div>
+              <div class="headphone-right"></div>
+
+            </div>
 
           </div>
 
-          <div class="product-information">
+          <div class="product-details">
 
             <span class="product-category">
-              Gifts
+              Electronics
             </span>
 
-            <h3>Gift Box Collection</h3>
+            <h3>
+              Wireless Headphones
+            </h3>
 
-            <p class="product-size">
-              Ready to gift
+            <p>
+              Bluetooth
             </p>
 
-            <div class="product-rating">
-              <span>4.8</span>
-              <span class="rating-stars">★★★★★</span>
+            <div class="rating">
+              <strong>
+                4.5
+              </strong>
+
+              <span>
+                ★★★★★
+              </span>
             </div>
 
-            <div class="product-bottom">
+            <div class="product-footer">
 
               <strong class="product-price">
-                ₹449
+                ₹899
               </strong>
 
               <button
                 class="add-button"
-                data-product="Gift Box Collection"
-                data-price="449"
+                type="button"
               >
                 Add
               </button>
@@ -1049,38 +1188,49 @@
         </article>
 
 
+        <!-- PRODUCT 7 -->
 
-        <!-- PRODUCT 12 -->
-
-        <article class="product-card" data-category="Groceries">
+        <article
+          class="product-card"
+          data-category="Stationery"
+        >
 
           <div class="product-image">
 
-            <img
-              src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=600&q=85"
-              alt="Fresh vegetables"
-            >
+            <div class="product-visual stationery-visual">
+
+              <div class="notebook"></div>
+              <div class="pencil"></div>
+
+            </div>
 
           </div>
 
-          <div class="product-information">
+          <div class="product-details">
 
             <span class="product-category">
-              Groceries
+              Stationery
             </span>
 
-            <h3>Fresh Vegetable Basket</h3>
+            <h3>
+              Everyday Notebook Set
+            </h3>
 
-            <p class="product-size">
-              Approx. 2 kg
+            <p>
+              3 notebooks
             </p>
 
-            <div class="product-rating">
-              <span>4.7</span>
-              <span class="rating-stars">★★★★★</span>
+            <div class="rating">
+              <strong>
+                4.7
+              </strong>
+
+              <span>
+                ★★★★★
+              </span>
             </div>
 
-            <div class="product-bottom">
+            <div class="product-footer">
 
               <strong class="product-price">
                 ₹179
@@ -1088,8 +1238,68 @@
 
               <button
                 class="add-button"
-                data-product="Fresh Vegetable Basket"
-                data-price="179"
+                type="button"
+              >
+                Add
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <!-- PRODUCT 8 -->
+
+        <article
+          class="product-card"
+          data-category="Gifts"
+        >
+
+          <div class="product-image">
+
+            <div class="product-visual gift-visual">
+
+              <div class="gift"></div>
+
+            </div>
+
+          </div>
+
+          <div class="product-details">
+
+            <span class="product-category">
+              Gifts
+            </span>
+
+            <h3>
+              Little Surprise Gift Box
+            </h3>
+
+            <p>
+              Ready to gift
+            </p>
+
+            <div class="rating">
+              <strong>
+                4.8
+              </strong>
+
+              <span>
+                ★★★★★
+              </span>
+            </div>
+
+            <div class="product-footer">
+
+              <strong class="product-price">
+                ₹399
+              </strong>
+
+              <button
+                class="add-button"
+                type="button"
               >
                 Add
               </button>
@@ -1105,22 +1315,27 @@
     </section>
 
 
+    <!-- ===================================================
+         BENEFITS
+         =================================================== -->
 
-    <!-- =========================================
-         WHY RINYMART
-         ========================================= -->
-
-    <section class="benefits-section">
+    <section
+      class="benefits"
+      id="benefits"
+    >
 
       <div class="benefit">
 
-        <div class="benefit-icon">
-          <span class="truck-icon"></span>
-        </div>
+        <div class="benefit-icon truck-icon"></div>
 
         <div>
-          <strong>Fast delivery</strong>
-          <p>Convenient delivery to your doorstep.</p>
+          <strong>
+            Fast delivery
+          </strong>
+
+          <p>
+            Everyday products delivered conveniently.
+          </p>
         </div>
 
       </div>
@@ -1128,13 +1343,16 @@
 
       <div class="benefit">
 
-        <div class="benefit-icon">
-          <span class="quality-icon"></span>
-        </div>
+        <div class="benefit-icon quality-icon"></div>
 
         <div>
-          <strong>Great selection</strong>
-          <p>Products for everyday life and beyond.</p>
+          <strong>
+            Carefully selected
+          </strong>
+
+          <p>
+            Useful products chosen for everyday life.
+          </p>
         </div>
 
       </div>
@@ -1142,13 +1360,16 @@
 
       <div class="benefit">
 
-        <div class="benefit-icon">
-          <span class="return-icon"></span>
-        </div>
+        <div class="benefit-icon family-icon"></div>
 
         <div>
-          <strong>Easy returns</strong>
-          <p>Simple and clear return options.</p>
+          <strong>
+            Family friendly
+          </strong>
+
+          <p>
+            A welcoming store for everyone.
+          </p>
         </div>
 
       </div>
@@ -1156,44 +1377,168 @@
 
       <div class="benefit">
 
-        <div class="benefit-icon">
-          <span class="secure-icon"></span>
-        </div>
+        <div class="benefit-icon secure-icon"></div>
 
         <div>
-          <strong>Secure shopping</strong>
-          <p>Your shopping experience comes first.</p>
+          <strong>
+            Simple checkout
+          </strong>
+
+          <p>
+            Easy shopping from start to finish.
+          </p>
         </div>
 
       </div>
 
     </section>
 
-
   </main>
 
 
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
 
-  <!-- =========================================
-       ADDRESS / CUSTOMER MODAL
-       ========================================= -->
+  <footer class="footer">
 
-  <div class="modal-overlay" id="customerModal">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <div class="brand-footer-logo">
+          R
+        </div>
+
+        <div>
+
+          <strong>
+            Riny<span>Mart</span>
+          </strong>
+
+          <p>
+            Everything you need,
+            in one place.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <div>
+
+          <h3>
+            Shop
+          </h3>
+
+          <a href="#categories">
+            Categories
+          </a>
+
+          <a href="#deals">
+            Deals
+          </a>
+
+          <a href="#products">
+            Products
+          </a>
+
+        </div>
+
+
+        <div>
+
+          <h3>
+            Help
+          </h3>
+
+          <a href="#" id="footerAccount">
+            Account
+          </a>
+
+          <a href="#" id="footerDelivery">
+            Delivery
+          </a>
+
+          <a href="#" id="footerCart">
+            Cart
+          </a>
+
+        </div>
+
+
+        <div>
+
+          <h3>
+            RinyMart
+          </h3>
+
+          <a href="#">
+            About
+          </a>
+
+          <a href="#">
+            Contact
+          </a>
+
+          <a href="#">
+            Privacy
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 RinyMart
+      </span>
+
+      <span>
+        Independent shopping experience
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =====================================================
+       CUSTOMER MODAL
+       ===================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="customerModal"
+  >
 
     <div class="modal">
 
-      <button class="modal-close" id="closeCustomerModal">
+      <button
+        class="modal-close"
+        id="closeCustomerModal"
+        type="button"
+      >
         ×
       </button>
 
-      <span class="modal-eyebrow">
-        Delivery details
+      <span class="eyebrow">
+        DELIVERY DETAILS
       </span>
 
-      <h2>Where should we deliver?</h2>
+      <h2>
+        Where should we deliver?
+      </h2>
 
       <p>
-        Enter your details so RinyMart knows where to send your order.
+        Enter your delivery details to prepare your order.
       </p>
 
 
@@ -1201,35 +1546,44 @@
 
         <label>
           Full name
+
           <input
-            type="text"
             id="customerName"
+            type="text"
             placeholder="Your name"
+            autocomplete="name"
             required
           >
+
         </label>
 
 
         <label>
           Mobile number
+
           <input
-            type="tel"
             id="customerPhone"
-            placeholder="10-digit mobile number"
+            type="tel"
             inputmode="numeric"
             maxlength="10"
+            placeholder="10-digit mobile number"
+            autocomplete="tel"
             required
           >
+
         </label>
 
 
         <label>
           Delivery address
+
           <textarea
             id="customerAddress"
-            placeholder="House / flat, street and area"
+            placeholder="House / building, street, area"
+            autocomplete="street-address"
             required
           ></textarea>
+
         </label>
 
 
@@ -1237,31 +1591,40 @@
 
           <label>
             City
+
             <input
-              type="text"
               id="customerCity"
+              type="text"
               placeholder="City"
+              autocomplete="address-level2"
               required
             >
+
           </label>
 
 
           <label>
             PIN code
+
             <input
-              type="text"
               id="customerPin"
-              placeholder="PIN code"
+              type="text"
               inputmode="numeric"
               maxlength="6"
+              placeholder="PIN"
+              autocomplete="postal-code"
               required
             >
+
           </label>
 
         </div>
 
 
-        <button type="submit" class="primary-button full-button">
+        <button
+          class="primary-button full-button"
+          type="submit"
+        >
           Save delivery details
         </button>
 
@@ -1272,34 +1635,50 @@
   </div>
 
 
-
-  <!-- =========================================
+  <!-- =====================================================
        CART DRAWER
-       ========================================= -->
+       ===================================================== -->
 
-  <aside class="cart-drawer" id="cartDrawer">
+  <aside
+    class="cart-drawer"
+    id="cartDrawer"
+  >
 
     <div class="cart-header">
 
       <div>
-        <span class="section-eyebrow">Your shopping bag</span>
-        <h2>Your Cart</h2>
+        <span class="eyebrow">
+          YOUR SHOPPING
+        </span>
+
+        <h2>
+          Cart
+        </h2>
       </div>
 
-      <button id="closeCart">
+      <button
+        id="closeCart"
+        type="button"
+        aria-label="Close cart"
+      >
         ×
       </button>
 
     </div>
 
 
-    <div class="cart-items" id="cartItems">
+    <div
+      class="cart-items"
+      id="cartItems"
+    >
 
       <div class="empty-cart">
 
-        <div class="empty-cart-icon"></div>
+        <div class="empty-cart-circle"></div>
 
-        <h3>Your cart is empty</h3>
+        <h3>
+          Your cart is empty
+        </h3>
 
         <p>
           Add something you love and it will appear here.
@@ -1310,24 +1689,48 @@
     </div>
 
 
-    <div class="cart-footer">
+    <div class="cart-summary">
 
-      <div class="cart-summary-row">
-        <span>Subtotal</span>
-        <strong>₹<span id="cartSubtotal">0</span></strong>
+      <div>
+        <span>
+          Subtotal
+        </span>
+
+        <strong>
+          ₹<span id="cartSubtotal">0</span>
+        </strong>
       </div>
 
-      <div class="cart-summary-row">
-        <span>Delivery</span>
-        <strong id="deliveryCost">₹0</strong>
+
+      <div>
+        <span>
+          Delivery
+        </span>
+
+        <strong>
+          ₹<span id="cartDelivery">0</span>
+        </strong>
       </div>
 
-      <div class="cart-summary-total">
-        <span>Total</span>
-        <strong>₹<span id="cartGrandTotal">0</span></strong>
+
+      <div class="cart-total">
+
+        <strong>
+          Total
+        </strong>
+
+        <strong>
+          ₹<span id="cartGrandTotal">0</span>
+        </strong>
+
       </div>
 
-      <button class="primary-button full-button" id="checkoutButton">
+
+      <button
+        class="primary-button full-button"
+        id="checkoutButton"
+        type="button"
+      >
         Continue to checkout
       </button>
 
@@ -1336,137 +1739,86 @@
   </aside>
 
 
-
-  <!-- =========================================
+  <!-- =====================================================
        SEARCH RESULTS
-       ========================================= -->
+       ===================================================== -->
 
-  <div class="search-results-panel" id="searchResults">
+  <section
+    class="search-results"
+    id="searchResults"
+  >
 
     <div class="search-results-inner">
 
       <div class="search-results-header">
 
         <div>
-          <span class="section-eyebrow">Search</span>
-          <h2 id="searchTitle">Results</h2>
+
+          <span class="eyebrow">
+            SEARCH
+          </span>
+
+          <h2 id="searchTitle">
+            Search results
+          </h2>
+
         </div>
 
-        <button id="closeSearchResults">
+        <button
+          id="closeSearchResults"
+          type="button"
+        >
           ×
         </button>
 
       </div>
 
-      <div id="searchResultsGrid"></div>
+
+      <div
+        class="search-results-grid"
+        id="searchResultsGrid"
+      ></div>
 
     </div>
 
-  </div>
+  </section>
 
 
-
-  <!-- =========================================
+  <!-- =====================================================
        TOAST
-       ========================================= -->
+       ===================================================== -->
 
-  <div class="toast" id="toast">
+  <div
+    class="toast"
+    id="toast"
+  >
 
-    <div class="toast-check"></div>
+    <div class="toast-mark">
+      ✓
+    </div>
 
     <div>
-      <strong id="toastTitle">Added to cart</strong>
-      <span id="toastMessage">Product added successfully.</span>
+
+      <strong id="toastTitle">
+        Done
+      </strong>
+
+      <span id="toastMessage">
+        Completed successfully.
+      </span>
+
     </div>
 
   </div>
 
 
+  <!-- =====================================================
+       QR LIBRARY
+       ===================================================== -->
 
-  <!-- =========================================
-       FOOTER
-       ========================================= -->
-
-  <footer class="site-footer">
-
-    <div class="footer-main">
-
-      <div class="footer-brand">
-
-        <div class="brand">
-          <div class="brand-mark">R</div>
-
-          <div class="brand-text">
-            <strong>Riny<span>Mart</span></strong>
-            <small>Everything you need, right here.</small>
-          </div>
-        </div>
-
-        <p>
-          A modern place to discover everyday essentials,
-          useful products and things you'll love.
-        </p>
-
-      </div>
-
-
-      <div class="footer-column">
-
-        <h3>Shop</h3>
-
-        <a href="#categories">Categories</a>
-        <a href="#deals">Deals</a>
-        <a href="#products">Popular products</a>
-        <a href="#groceries">Groceries</a>
-
-      </div>
-
-
-      <div class="footer-column">
-
-        <h3>Help</h3>
-
-        <a href="#">Your account</a>
-        <a href="#">Delivery information</a>
-        <a href="#">Returns</a>
-        <a href="#">Contact us</a>
-
-      </div>
-
-
-      <div class="footer-column">
-
-        <h3>RinyMart</h3>
-
-        <a href="#">About us</a>
-        <a href="#">Careers</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-
-      </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-      <span>
-        © 2026 RinyMart. All rights reserved.
-      </span>
-
-      <span>
-        Made for a better shopping experience.
-      </span>
-
-    </div>
-
-  </footer>
-
-
-
-  <!-- =========================================
-       JAVASCRIPT
-       ========================================= -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+  ></script>
 
   <script src="script.js"></script>
 
