@@ -1,19 +1,17 @@
 "use strict";
 
 /* =========================================================
-   RINYMART
-   Main Application
+   RINYMART — COMPLETE SHOPPING ENGINE
    ========================================================= */
 
 const RinyMart = {
 
   cart: [],
   customer: null,
-
   products: [],
+  toastTimer: null,
 
   init() {
-
     this.collectProducts();
     this.loadCustomer();
     this.loadCart();
@@ -24,51 +22,50 @@ const RinyMart = {
     this.setupCategories();
     this.setupNavigation();
     this.setupButtons();
+    this.setupProductButtons();
 
-    this.generateQRCode();
-
+    this.generateRealQRCode();
     this.updateCart();
-
+    this.updateLocation();
   },
 
 
   /* =======================================================
-     PRODUCT DATA
+     PRODUCTS
      ======================================================= */
 
   collectProducts() {
 
-    const cards = document.querySelectorAll(".product-card");
-
-    this.products = Array.from(cards).map((card, index) => {
-
-      const image =
-        card.querySelector("img")?.src || "";
+    this.products = [
+      ...document.querySelectorAll(".product-card")
+    ].map((card, index) => {
 
       const name =
         card.querySelector("h3")?.textContent.trim() ||
-        "Product";
+        `Product ${index + 1}`;
 
-      const category =
-        card.dataset.category ||
-        "General";
-
-      const priceElement =
-        card.querySelector(".product-price");
+      const priceText =
+        card.querySelector(".product-price")
+          ?.textContent || "0";
 
       const price =
         Number(
-          priceElement?.textContent
+          priceText
             .replace(/[₹,]/g, "")
             .trim()
         ) || 0;
 
+      const image =
+        card.querySelector("img")?.src || "";
+
       return {
         id: index + 1,
         name,
-        category,
         price,
-        image
+        image,
+        category:
+          card.dataset.category || "Other",
+        card
       };
 
     });
@@ -88,20 +85,15 @@ const RinyMart = {
     const button =
       document.getElementById("searchButton");
 
-    if (!input || !button) return;
+    if (!input) return;
 
-    const performSearch = () => {
+    const search = () => {
 
       const query =
         input.value.trim().toLowerCase();
 
       if (!query) {
-
-        this.showToast(
-          "Search",
-          "Type something to search."
-        );
-
+        this.closeSearch();
         return;
       }
 
@@ -109,9 +101,15 @@ const RinyMart = {
 
     };
 
-    button.addEventListener(
-      "click",
-      performSearch
+    input.addEventListener(
+      "input",
+      () => {
+
+        if (input.value.trim().length >= 2) {
+          search();
+        }
+
+      }
     );
 
     input.addEventListener(
@@ -119,11 +117,22 @@ const RinyMart = {
       event => {
 
         if (event.key === "Enter") {
-          performSearch();
+          search();
+        }
+
+        if (event.key === "Escape") {
+          this.closeSearch();
         }
 
       }
     );
+
+    if (button) {
+      button.addEventListener(
+        "click",
+        search
+      );
+    }
 
   },
 
@@ -131,64 +140,44 @@ const RinyMart = {
   showSearchResults(query) {
 
     const panel =
-      document.getElementById("searchResults");
+      document.getElementById(
+        "searchResults"
+      );
 
     const grid =
-      document.getElementById("searchResultsGrid");
+      document.getElementById(
+        "searchResultsGrid"
+      );
 
     const title =
-      document.getElementById("searchTitle");
+      document.getElementById(
+        "searchTitle"
+      );
 
     if (!panel || !grid) return;
 
     const results =
-      this.products.filter(product => {
+      this.products.filter(product =>
+        product.name
+          .toLowerCase()
+          .includes(query) ||
+        product.category
+          .toLowerCase()
+          .includes(query)
+      );
 
-        return (
-          product.name
-            .toLowerCase()
-            .includes(query) ||
-
-          product.category
-            .toLowerCase()
-            .includes(query)
-        );
-
-      });
-
-    if (title) {
-
-      title.textContent =
-        `Results for "${query}"`;
-
-    }
+    title.textContent =
+      `Results for "${query}"`;
 
     grid.innerHTML = "";
 
     if (!results.length) {
 
       grid.innerHTML = `
-
-        <div style="
-          grid-column:1/-1;
-          text-align:center;
-          padding:80px 20px;
-        ">
-
-          <h3 style="font-size:22px;">
-            No products found
-          </h3>
-
-          <p style="
-            margin-top:8px;
-            color:#806f62;
-            font-size:12px;
-          ">
-            Try another search.
-          </p>
-
+        <div class="no-results">
+          <h3>No products found</h3>
+          <p>Try another search.</p>
         </div>
-
       `;
 
     } else {
@@ -221,8 +210,9 @@ const RinyMart = {
       <div class="product-image">
 
         <img
-          src="${product.image}"
+          src="${this.escapeAttribute(product.image)}"
           alt="${this.escapeHTML(product.name)}"
+          loading="lazy"
         >
 
       </div>
@@ -242,13 +232,8 @@ const RinyMart = {
         </p>
 
         <div class="product-rating">
-
-          <span>4.7</span>
-
-          <span class="rating-stars">
-            ★★★★★
-          </span>
-
+          <span>4.8</span>
+          <span class="rating-stars">★★★★★</span>
         </div>
 
         <div class="product-bottom">
@@ -259,8 +244,7 @@ const RinyMart = {
 
           <button
             class="add-button"
-            data-product="${this.escapeAttribute(product.name)}"
-            data-price="${product.price}"
+            type="button"
           >
             Add
           </button>
@@ -268,26 +252,76 @@ const RinyMart = {
         </div>
 
       </div>
-
     `;
 
-    const addButton =
-      card.querySelector(".add-button");
+    card
+      .querySelector(".add-button")
+      .addEventListener(
+        "click",
+        () => {
 
-    addButton.addEventListener(
-      "click",
-      () => {
+          this.addToCart(
+            product.name,
+            product.price,
+            product.image
+          );
 
-        this.addToCart(
-          product.name,
-          product.price,
-          product.image
-        );
-
-      }
-    );
+        }
+      );
 
     return card;
+
+  },
+
+
+  closeSearch() {
+
+    document
+      .getElementById("searchResults")
+      ?.classList.remove("active");
+
+  },
+
+
+  /* =======================================================
+     PRODUCT BUTTONS
+     ======================================================= */
+
+  setupProductButtons() {
+
+    document
+      .querySelectorAll(".product-card")
+      .forEach(card => {
+
+        const button =
+          card.querySelector(".add-button");
+
+        if (!button) return;
+
+        button.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+            const product =
+              this.products.find(
+                item =>
+                  item.card === card
+              );
+
+            if (!product) return;
+
+            this.addToCart(
+              product.name,
+              product.price,
+              product.image
+            );
+
+          }
+        );
+
+      });
 
   },
 
@@ -299,64 +333,27 @@ const RinyMart = {
   setupCart() {
 
     document
-      .querySelectorAll(".add-button")
-      .forEach(button => {
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            const name =
-              button.dataset.product;
-
-            const price =
-              Number(button.dataset.price);
-
-            const product =
-              this.products.find(
-                item => item.name === name
-              );
-
-            this.addToCart(
-              name,
-              price,
-              product?.image || ""
-            );
-
-          }
-        );
-
-      });
-
-
-    const cartButton =
-      document.getElementById("cartButton");
-
-    const closeCart =
-      document.getElementById("closeCart");
-
-    if (cartButton) {
-
-      cartButton.addEventListener(
+      .getElementById("cartButton")
+      ?.addEventListener(
         "click",
         () => this.openCart()
       );
 
-    }
-
-    if (closeCart) {
-
-      closeCart.addEventListener(
+    document
+      .getElementById("closeCart")
+      ?.addEventListener(
         "click",
         () => this.closeCart()
       );
 
-    }
-
   },
 
 
-  addToCart(name, price, image) {
+  addToCart(
+    name,
+    price,
+    image
+  ) {
 
     const existing =
       this.cart.find(
@@ -370,12 +367,10 @@ const RinyMart = {
     } else {
 
       this.cart.push({
-
         name,
         price,
         image,
         quantity: 1
-
       });
 
     }
@@ -385,8 +380,39 @@ const RinyMart = {
 
     this.showToast(
       "Added to cart",
-      `${name} was added successfully.`
+      `${name} was added to your cart.`
     );
+
+  },
+
+
+  changeQuantity(
+    name,
+    amount
+  ) {
+
+    const item =
+      this.cart.find(
+        product =>
+          product.name === name
+      );
+
+    if (!item) return;
+
+    item.quantity += amount;
+
+    if (item.quantity <= 0) {
+
+      this.cart =
+        this.cart.filter(
+          product =>
+            product.name !== name
+        );
+
+    }
+
+    this.saveCart();
+    this.updateCart();
 
   },
 
@@ -404,104 +430,86 @@ const RinyMart = {
   },
 
 
-  changeQuantity(name, amount) {
-
-    const item =
-      this.cart.find(
-        product => product.name === name
-      );
-
-    if (!item) return;
-
-    item.quantity += amount;
-
-    if (item.quantity <= 0) {
-
-      this.removeFromCart(name);
-      return;
-
-    }
-
-    this.saveCart();
-    this.updateCart();
-
-  },
-
-
   updateCart() {
 
-    const countElement =
-      document.getElementById("cartCount");
-
-    const totalElement =
-      document.getElementById("cartTotal");
-
-    const subtotalElement =
-      document.getElementById("cartSubtotal");
-
-    const grandTotalElement =
-      document.getElementById("cartGrandTotal");
-
-    const itemsElement =
-      document.getElementById("cartItems");
-
-    const totalQuantity =
+    const count =
       this.cart.reduce(
-        (sum, item) =>
-          sum + item.quantity,
+        (total, item) =>
+          total + item.quantity,
         0
       );
 
     const subtotal =
       this.cart.reduce(
-        (sum, item) =>
-          sum + item.price * item.quantity,
+        (total, item) =>
+          total +
+          item.price *
+          item.quantity,
         0
       );
 
     const delivery =
       subtotal > 0 ? 29 : 0;
 
-    const grandTotal =
+    const total =
       subtotal + delivery;
 
 
+    const countElement =
+      document.getElementById(
+        "cartCount"
+      );
+
     if (countElement) {
-
       countElement.textContent =
-        totalQuantity;
-
+        count;
     }
 
-    if (totalElement) {
 
-      totalElement.textContent =
-        subtotal.toLocaleString("en-IN");
-
-    }
+    const subtotalElement =
+      document.getElementById(
+        "cartSubtotal"
+      );
 
     if (subtotalElement) {
-
       subtotalElement.textContent =
         subtotal.toLocaleString("en-IN");
-
-    }
-
-    if (grandTotalElement) {
-
-      grandTotalElement.textContent =
-        grandTotal.toLocaleString("en-IN");
-
     }
 
 
-    if (!itemsElement) return;
+    const deliveryElement =
+      document.getElementById(
+        "cartDelivery"
+      );
+
+    if (deliveryElement) {
+      deliveryElement.textContent =
+        delivery.toLocaleString("en-IN");
+    }
+
+
+    const totalElement =
+      document.getElementById(
+        "cartGrandTotal"
+      );
+
+    if (totalElement) {
+      totalElement.textContent =
+        total.toLocaleString("en-IN");
+    }
+
+
+    const items =
+      document.getElementById(
+        "cartItems"
+      );
+
+    if (!items) return;
 
 
     if (!this.cart.length) {
 
-      itemsElement.innerHTML = `
-
+      items.innerHTML = `
         <div class="empty-cart">
 
           <div class="empty-cart-icon"></div>
@@ -516,7 +524,6 @@ const RinyMart = {
           </p>
 
         </div>
-
       `;
 
       return;
@@ -524,107 +531,61 @@ const RinyMart = {
     }
 
 
-    itemsElement.innerHTML = "";
+    items.innerHTML = "";
+
 
     this.cart.forEach(item => {
 
       const row =
         document.createElement("div");
 
-      row.style.cssText = `
-        display:grid;
-        grid-template-columns:64px 1fr;
-        gap:12px;
-        padding:13px 0;
-        border-bottom:1px solid #eadfd3;
-      `;
+      row.className =
+        "cart-item";
+
 
       row.innerHTML = `
 
         <img
-          src="${item.image}"
+          src="${this.escapeAttribute(item.image)}"
           alt="${this.escapeHTML(item.name)}"
-          style="
-            width:64px;
-            height:64px;
-            object-fit:cover;
-            border-radius:12px;
-            background:#f5eee6;
-          "
         >
 
-        <div>
+        <div class="cart-item-info">
 
-          <strong style="
-            display:block;
-            font-size:12px;
-            line-height:1.4;
-          ">
+          <strong>
             ${this.escapeHTML(item.name)}
           </strong>
 
-          <span style="
-            display:block;
-            margin-top:4px;
-            font-size:12px;
-            color:#e87524;
-            font-weight:800;
-          ">
+          <span>
             ₹${item.price.toLocaleString("en-IN")}
           </span>
 
-          <div style="
-            display:flex;
-            align-items:center;
-            gap:8px;
-            margin-top:9px;
-          ">
+          <div class="quantity-controls">
 
             <button
+              type="button"
               class="quantity-button"
-              data-action="minus"
-              style="
-                width:25px;
-                height:25px;
-                border-radius:7px;
-                background:#f6eee7;
-                font-weight:800;
-              "
+              data-minus
             >
               −
             </button>
 
-            <strong style="
-              min-width:15px;
-              text-align:center;
-              font-size:11px;
-            ">
+            <strong>
               ${item.quantity}
             </strong>
 
             <button
+              type="button"
               class="quantity-button"
-              data-action="plus"
-              style="
-                width:25px;
-                height:25px;
-                border-radius:7px;
-                background:#f6eee7;
-                font-weight:800;
-              "
+              data-plus
             >
               +
             </button>
 
             <button
-              data-action="remove"
-              style="
-                margin-left:auto;
-                background:transparent;
-                color:#a25a32;
-                font-size:10px;
-                font-weight:700;
-              "
+              type="button"
+              class="remove-cart-item"
+              data-remove
             >
               Remove
             </button>
@@ -632,46 +593,45 @@ const RinyMart = {
           </div>
 
         </div>
-
       `;
 
 
-      row.querySelector(
-        '[data-action="minus"]'
-      ).addEventListener(
-        "click",
-        () =>
-          this.changeQuantity(
-            item.name,
-            -1
-          )
-      );
+      row
+        .querySelector("[data-minus]")
+        .addEventListener(
+          "click",
+          () =>
+            this.changeQuantity(
+              item.name,
+              -1
+            )
+        );
 
 
-      row.querySelector(
-        '[data-action="plus"]'
-      ).addEventListener(
-        "click",
-        () =>
-          this.changeQuantity(
-            item.name,
-            1
-          )
-      );
+      row
+        .querySelector("[data-plus]")
+        .addEventListener(
+          "click",
+          () =>
+            this.changeQuantity(
+              item.name,
+              1
+            )
+        );
 
 
-      row.querySelector(
-        '[data-action="remove"]'
-      ).addEventListener(
-        "click",
-        () =>
-          this.removeFromCart(
-            item.name
-          )
-      );
+      row
+        .querySelector("[data-remove]")
+        .addEventListener(
+          "click",
+          () =>
+            this.removeFromCart(
+              item.name
+            )
+        );
 
 
-      itemsElement.appendChild(row);
+      items.appendChild(row);
 
     });
 
@@ -680,50 +640,31 @@ const RinyMart = {
 
   openCart() {
 
-    const drawer =
-      document.getElementById("cartDrawer");
-
-    if (drawer) {
-
-      drawer.classList.add("active");
-
-    }
+    document
+      .getElementById("cartDrawer")
+      ?.classList.add("active");
 
   },
 
 
   closeCart() {
 
-    const drawer =
-      document.getElementById("cartDrawer");
-
-    if (drawer) {
-
-      drawer.classList.remove("active");
-
-    }
+    document
+      .getElementById("cartDrawer")
+      ?.classList.remove("active");
 
   },
 
 
   /* =======================================================
-     CUSTOMER DETAILS
+     CUSTOMER INFORMATION
      ======================================================= */
 
   setupCustomer() {
 
-    const accountButton =
-      document.getElementById("accountButton");
-
-    const locationButton =
-      document.getElementById("locationButton");
-
     const modal =
-      document.getElementById("customerModal");
-
-    const close =
       document.getElementById(
-        "closeCustomerModal"
+        "customerModal"
       );
 
     const form =
@@ -731,74 +672,53 @@ const RinyMart = {
         "customerForm"
       );
 
-
-    const openModal = () => {
-
-      if (modal) {
-
-        modal.classList.add("active");
-
-      }
-
-    };
-
-
-    if (accountButton) {
-
-      accountButton.addEventListener(
+    document
+      .getElementById("accountButton")
+      ?.addEventListener(
         "click",
-        openModal
+        () =>
+          modal?.classList.add(
+            "active"
+          )
       );
 
-    }
 
-
-    if (locationButton) {
-
-      locationButton.addEventListener(
+    document
+      .getElementById("locationButton")
+      ?.addEventListener(
         "click",
-        openModal
+        () =>
+          modal?.classList.add(
+            "active"
+          )
       );
 
-    }
 
-
-    if (close) {
-
-      close.addEventListener(
+    document
+      .getElementById(
+        "closeCustomerModal"
+      )
+      ?.addEventListener(
         "click",
-        () => {
+        () =>
+          modal?.classList.remove(
+            "active"
+          )
+      );
 
+
+    modal?.addEventListener(
+      "click",
+      event => {
+
+        if (event.target === modal) {
           modal.classList.remove(
             "active"
           );
-
         }
-      );
 
-    }
-
-
-    if (modal) {
-
-      modal.addEventListener(
-        "click",
-        event => {
-
-          if (
-            event.target === modal
-          ) {
-
-            modal.classList.remove(
-              "active"
-            );
-
-          }
-
-        }
-      );
-
-    }
+      }
+    );
 
 
     if (!form) return;
@@ -812,36 +732,56 @@ const RinyMart = {
 
 
         const name =
-          document.getElementById(
-            "customerName"
-          ).value.trim();
+          document
+            .getElementById(
+              "customerName"
+            )
+            .value.trim();
+
 
         const phone =
-          document.getElementById(
-            "customerPhone"
-          ).value.trim();
+          document
+            .getElementById(
+              "customerPhone"
+            )
+            .value
+            .replace(/\D/g, "");
+
 
         const address =
-          document.getElementById(
-            "customerAddress"
-          ).value.trim();
+          document
+            .getElementById(
+              "customerAddress"
+            )
+            .value.trim();
+
 
         const city =
-          document.getElementById(
-            "customerCity"
-          ).value.trim();
+          document
+            .getElementById(
+              "customerCity"
+            )
+            .value.trim();
+
 
         const pin =
-          document.getElementById(
-            "customerPin"
-          ).value.trim();
+          document
+            .getElementById(
+              "customerPin"
+            )
+            .value
+            .replace(/\D/g, "");
 
 
-        if (!/^\d{10}$/.test(phone)) {
+        if (
+          !name ||
+          !address ||
+          !city
+        ) {
 
           this.showToast(
-            "Check your number",
-            "Enter a valid 10-digit mobile number."
+            "Missing information",
+            "Please complete all delivery fields."
           );
 
           return;
@@ -849,10 +789,26 @@ const RinyMart = {
         }
 
 
-        if (!/^\d{6}$/.test(pin)) {
+        if (
+          !/^\d{10}$/.test(phone)
+        ) {
 
           this.showToast(
-            "Check your PIN code",
+            "Invalid mobile number",
+            "Enter a valid 10-digit number."
+          );
+
+          return;
+
+        }
+
+
+        if (
+          !/^\d{6}$/.test(pin)
+        ) {
+
+          this.showToast(
+            "Invalid PIN code",
             "Enter a valid 6-digit PIN code."
           );
 
@@ -862,13 +818,11 @@ const RinyMart = {
 
 
         this.customer = {
-
           name,
           phone,
           address,
           city,
           pin
-
         };
 
 
@@ -880,17 +834,17 @@ const RinyMart = {
         );
 
 
-        this.updateLocation();
-
-
-        modal.classList.remove(
+        modal?.classList.remove(
           "active"
         );
 
 
+        this.updateLocation();
+
+
         this.showToast(
-          "Address saved",
-          `We'll deliver to ${city}.`
+          "Delivery details saved",
+          `Ready to deliver to ${city}.`
         );
 
       }
@@ -909,20 +863,12 @@ const RinyMart = {
         );
 
       if (saved) {
-
         this.customer =
           JSON.parse(saved);
-
-        this.updateLocation();
-
       }
 
-    } catch (error) {
-
-      console.warn(
-        "Could not load customer details."
-      );
-
+    } catch {
+      this.customer = null;
     }
 
   },
@@ -935,8 +881,15 @@ const RinyMart = {
         "locationText"
       );
 
-    if (!element || !this.customer) {
+    if (!element) return;
+
+    if (!this.customer) {
+
+      element.textContent =
+        "Add your location";
+
       return;
+
     }
 
     element.textContent =
@@ -962,7 +915,7 @@ const RinyMart = {
             const category =
               card.dataset.category;
 
-            this.filterProducts(
+            this.showCategory(
               category
             );
 
@@ -974,42 +927,35 @@ const RinyMart = {
   },
 
 
-  filterProducts(category) {
+  showCategory(category) {
 
     const cards =
       document.querySelectorAll(
-        ".product-card"
+        "#products .product-card"
       );
 
     let found = 0;
 
+
     cards.forEach(card => {
 
-      const matches =
+      const match =
         card.dataset.category ===
         category;
 
       card.style.display =
-        matches ? "" : "none";
+        match ? "" : "none";
 
-      if (matches) found++;
+      if (match) found++;
 
     });
 
 
-    const productsSection =
-      document.getElementById(
-        "products"
-      );
-
-    if (productsSection) {
-
-      productsSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+    document
+      .getElementById("products")
+      ?.scrollIntoView({
+        behavior: "smooth"
       });
-
-    }
 
 
     this.showToast(
@@ -1028,14 +974,9 @@ const RinyMart = {
 
   setupNavigation() {
 
-    const homeButton =
-      document.getElementById(
-        "homeButton"
-      );
-
-    if (homeButton) {
-
-      homeButton.addEventListener(
+    document
+      .getElementById("homeButton")
+      ?.addEventListener(
         "click",
         event => {
 
@@ -1049,78 +990,67 @@ const RinyMart = {
         }
       );
 
-    }
 
-
-    const closeSearch =
-      document.getElementById(
+    document
+      .getElementById(
         "closeSearchResults"
-      );
-
-    if (closeSearch) {
-
-      closeSearch.addEventListener(
+      )
+      ?.addEventListener(
         "click",
-        () => {
-
-          document
-            .getElementById(
-              "searchResults"
-            )
-            .classList.remove(
-              "active"
-            );
-
-        }
+        () => this.closeSearch()
       );
-
-    }
 
   },
 
 
   /* =======================================================
-     BUTTONS
+     MAIN BUTTONS
      ======================================================= */
 
   setupButtons() {
 
-    const shopNow =
-      document.getElementById(
-        "shopNowButton"
+    document
+      .getElementById("shopNowButton")
+      ?.addEventListener(
+        "click",
+        () => {
+
+          document
+            .getElementById("products")
+            ?.scrollIntoView({
+              behavior: "smooth"
+            });
+
+        }
       );
 
-    const explore =
-      document.getElementById(
-        "exploreButton"
+
+    document
+      .getElementById("exploreButton")
+      ?.addEventListener(
+        "click",
+        () => {
+
+          document
+            .getElementById("categories")
+            ?.scrollIntoView({
+              behavior: "smooth"
+            });
+
+        }
       );
 
-    const viewCategories =
-      document.getElementById(
+
+    document
+      .getElementById(
         "viewCategoriesButton"
-      );
-
-    const viewProducts =
-      document.getElementById(
-        "viewAllProducts"
-      );
-
-    const checkout =
-      document.getElementById(
-        "checkoutButton"
-      );
-
-
-    if (shopNow) {
-
-      shopNow.addEventListener(
+      )
+      ?.addEventListener(
         "click",
         () => {
 
           document
-            .getElementById(
-              "products"
-            )
+            .getElementById("categories")
             ?.scrollIntoView({
               behavior: "smooth"
             });
@@ -1128,89 +1058,60 @@ const RinyMart = {
         }
       );
 
-    }
+
+    /*
+       FIXED:
+       There is intentionally NO duplicate-ID
+       dependency here.
+
+       Both "View all" buttons are handled by
+       selecting their class.
+    */
+
+    document
+      .querySelectorAll(
+        ".deals-section .primary-button, .products-section .text-button"
+      )
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            document
+              .querySelectorAll(
+                "#products .product-card"
+              )
+              .forEach(card => {
+
+                card.style.display = "";
+
+              });
 
 
-    if (explore) {
+            document
+              .getElementById("products")
+              ?.scrollIntoView({
+                behavior: "smooth"
+              });
 
-      explore.addEventListener(
-        "click",
-        () => {
+          }
+        );
 
-          document
-            .getElementById(
-              "categories"
-            )
-            ?.scrollIntoView({
-              behavior: "smooth"
-            });
-
-        }
-      );
-
-    }
+      });
 
 
-    if (viewCategories) {
-
-      viewCategories.addEventListener(
-        "click",
-        () => {
-
-          document
-            .getElementById(
-              "categories"
-            )
-            ?.scrollIntoView({
-              behavior: "smooth"
-            });
-
-        }
-      );
-
-    }
-
-
-    if (viewProducts) {
-
-      viewProducts.addEventListener(
-        "click",
-        () => {
-
-          document
-            .querySelectorAll(
-              ".product-card"
-            )
-            .forEach(
-              card =>
-                card.style.display = ""
-            );
-
-          document
-            .getElementById(
-              "products"
-            )
-            ?.scrollIntoView({
-              behavior: "smooth"
-            });
-
-        }
-      );
-
-    }
-
-
-    if (checkout) {
-
-      checkout.addEventListener(
+    document
+      .getElementById("checkoutButton")
+      ?.addEventListener(
         "click",
         () => {
 
           if (!this.cart.length) {
 
             this.showToast(
-              "Your cart is empty",
-              "Add products before checking out."
+              "Cart is empty",
+              "Add products before checkout."
             );
 
             return;
@@ -1230,7 +1131,7 @@ const RinyMart = {
 
             this.showToast(
               "Delivery details needed",
-              "Add your delivery information first."
+              "Enter your delivery details first."
             );
 
             return;
@@ -1240,22 +1141,20 @@ const RinyMart = {
 
           this.showToast(
             "Checkout ready",
-            "Your order details are ready."
+            "Your order is ready for the next step."
           );
 
         }
       );
 
-    }
-
   },
 
 
   /* =======================================================
-     QR CODE
+     REAL QR CODE
      ======================================================= */
 
-  generateQRCode() {
+  generateRealQRCode() {
 
     const container =
       document.getElementById(
@@ -1266,142 +1165,87 @@ const RinyMart = {
 
 
     /*
-      We create a visual QR-style pattern here.
+      IMPORTANT:
 
-      For a production deployment, replace this with
-      a QR library that encodes the actual GitHub Pages URL.
+      location.href automatically becomes the
+      REAL deployed website address.
+
+      Example:
+
+      https://username.github.io/rinymart/
+
+      Therefore the QR does not need a hard-coded
+      fake URL.
     */
 
-    const placeholder =
-      container.querySelector(
-        ".qr-placeholder"
-      );
-
-    if (!placeholder) return;
+    const websiteURL =
+      window.location.href;
 
 
-    placeholder.innerHTML = "";
+    container.innerHTML = `
+
+      <div class="qr-loading">
+        Creating QR...
+      </div>
+
+    `;
 
 
-    const canvas =
+    const script =
       document.createElement(
-        "canvas"
+        "script"
       );
 
-    canvas.width = 70;
-    canvas.height = 70;
 
-    const context =
-      canvas.getContext("2d");
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
 
 
-    context.fillStyle = "#ffffff";
+    script.onload = () => {
 
-    context.fillRect(
-      0,
-      0,
-      70,
-      70
-    );
+      container.innerHTML = "";
 
 
-    context.fillStyle = "#111111";
-
-
-    const size = 4;
-
-
-    for (
-      let y = 0;
-      y < 17;
-      y++
-    ) {
-
-      for (
-        let x = 0;
-        x < 17;
-        x++
-      ) {
-
-        const random =
-          Math.random();
-
-        if (random > 0.53) {
-
-          context.fillRect(
-            x * size,
-            y * size,
-            size,
-            size
-          );
-
+      new QRCode(
+        container,
+        {
+          text: websiteURL,
+          width: 96,
+          height: 96,
+          colorDark: "#111111",
+          colorLight: "#ffffff",
+          correctLevel:
+            QRCode.CorrectLevel.H
         }
+      );
 
-      }
-
-    }
-
-
-    this.drawQRCorner(
-      context,
-      0,
-      0
-    );
-
-    this.drawQRCorner(
-      context,
-      48,
-      0
-    );
-
-    this.drawQRCorner(
-      context,
-      0,
-      48
-    );
+    };
 
 
-    placeholder.appendChild(
-      canvas
-    );
+    script.onerror = () => {
 
-  },
+      container.innerHTML = `
+
+        <div class="qr-error">
+
+          QR could not load.
+
+          <button
+            type="button"
+            onclick="location.reload()"
+          >
+            Retry
+          </button>
+
+        </div>
+
+      `;
+
+    };
 
 
-  drawQRCorner(
-    context,
-    x,
-    y
-  ) {
-
-    context.fillStyle =
-      "#111111";
-
-    context.fillRect(
-      x,
-      y,
-      20,
-      20
-    );
-
-    context.fillStyle =
-      "#ffffff";
-
-    context.fillRect(
-      x + 4,
-      y + 4,
-      12,
-      12
-    );
-
-    context.fillStyle =
-      "#111111";
-
-    context.fillRect(
-      x + 7,
-      y + 7,
-      6,
-      6
+    document.head.appendChild(
+      script
     );
 
   },
@@ -1413,22 +1257,12 @@ const RinyMart = {
 
   saveCart() {
 
-    try {
-
-      localStorage.setItem(
-        "rinyMartCart",
-        JSON.stringify(
-          this.cart
-        )
-      );
-
-    } catch (error) {
-
-      console.warn(
-        "Could not save cart."
-      );
-
-    }
+    localStorage.setItem(
+      "rinyMartCart",
+      JSON.stringify(
+        this.cart
+      )
+    );
 
   },
 
@@ -1442,14 +1276,12 @@ const RinyMart = {
           "rinyMartCart"
         );
 
-      if (saved) {
+      this.cart =
+        saved
+          ? JSON.parse(saved)
+          : [];
 
-        this.cart =
-          JSON.parse(saved);
-
-      }
-
-    } catch (error) {
+    } catch {
 
       this.cart = [];
 
@@ -1472,33 +1304,29 @@ const RinyMart = {
         "toast"
       );
 
-    const toastTitle =
+    if (!toast) return;
+
+
+    const titleElement =
       document.getElementById(
         "toastTitle"
       );
 
-    const toastMessage =
+    const messageElement =
       document.getElementById(
         "toastMessage"
       );
 
 
-    if (!toast) return;
-
-
-    if (toastTitle) {
-
-      toastTitle.textContent =
+    if (titleElement) {
+      titleElement.textContent =
         title;
-
     }
 
 
-    if (toastMessage) {
-
-      toastMessage.textContent =
+    if (messageElement) {
+      messageElement.textContent =
         message;
-
     }
 
 
@@ -1528,7 +1356,7 @@ const RinyMart = {
 
 
   /* =======================================================
-     SECURITY HELPERS
+     SAFETY
      ======================================================= */
 
   escapeHTML(value) {
@@ -1545,9 +1373,7 @@ const RinyMart = {
 
   escapeAttribute(value) {
 
-    return this.escapeHTML(
-      value
-    );
+    return this.escapeHTML(value);
 
   }
 
@@ -1555,7 +1381,7 @@ const RinyMart = {
 
 
 /* =========================================================
-   START APP
+   START
    ========================================================= */
 
 document.addEventListener(
